@@ -1,4 +1,6 @@
 import ngrok
+from modules import launch_u1tils
+write_log = launch_utils.write_log
 
 # Connect to ngrok for ingress
 def connect(token, port, options):
@@ -19,7 +21,6 @@ def connect(token, port, options):
     if not options.get('session_metadata'):
         options['session_metadata'] = 'stable-diffusion-webui'
 
-
     try:
         public_url = ngrok.connect(f"127.0.0.1:{port}", **options).url()
     except Exception as e:
@@ -28,3 +29,5 @@ def connect(token, port, options):
     else:
         print(f'ngrok connected to localhost:{port}! URL: {public_url}\n'
                'You can use this link after the launch is complete.')
+
+    write_log(public_url, "/content/url.txt")
